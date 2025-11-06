@@ -3,8 +3,7 @@ import textwrap
 import streamlit as st
 
 # Configure Gemini securely using Colab Secrets Manager
-GOOGLE_API_KEY = userdata.get('GOOGLE_API_KEY')
-genai.configure(api_key=GOOGLE_API_KEY)
+genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 
 # Kelly's poetic, skeptical personality prompt
 KELLY_SYSTEM_PROMPT = """
