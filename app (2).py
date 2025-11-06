@@ -25,17 +25,12 @@ Your goal is to enlighten, not entertain.
 """
 
 # ----------------------------
-# Lazy-load the Gemini model
+# Lazy-load the Gemini 2.5 Flash model
 # ----------------------------
 def get_model():
     if "model" not in st.session_state:
         with st.spinner("Loading Kelly the AI Scientist..."):
-            try:
-                # Try preferred model
-                st.session_state.model = genai.GenerativeModel("gemini-2.5-flash")
-            except Exception:
-                # Fallback to more widely available model
-                st.session_state.model = genai.GenerativeModel("gemini-pro")
+            st.session_state.model = genai.GenerativeModel("models/gemini-1.5-flash")  # Gemini 2.5 Flash
     return st.session_state.model
 
 # ----------------------------
@@ -75,4 +70,4 @@ for chat in reversed(st.session_state.history):
     st.markdown(f"🤖 **Kelly:**\n\n{chat['kelly']}")
     st.markdown("---")
 
-st.markdown("✨ Developed with Gemini and Streamlit")
+st.markdown("✨ Developed with Gemini 2.5 Flash and Streamlit")
