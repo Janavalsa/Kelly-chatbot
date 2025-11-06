@@ -30,7 +30,7 @@ Your goal is to enlighten, not entertain.
 def get_model():
     if "model" not in st.session_state:
         with st.spinner("Loading Kelly the AI Scientist..."):
-            st.session_state.model = genai.GenerativeModel("models/gemini-1.5-flash")  # Gemini 2.5 Flash
+            st.session_state.model = genai.GenerativeModel("models/gemini-2.5-flash")  # Gemini 2.5 Flash
     return st.session_state.model
 
 # ----------------------------
