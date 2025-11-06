@@ -1,7 +1,6 @@
 import google.generativeai as genai
 import textwrap
 import streamlit as st
-from google.colab import userdata # Import userdata for Colab Secrets Manager
 
 # Configure Gemini securely using Colab Secrets Manager
 GOOGLE_API_KEY = userdata.get('GOOGLE_API_KEY')
