@@ -2,10 +2,14 @@ import google.generativeai as genai
 import textwrap
 import streamlit as st
 
-# Configure Gemini securely using Colab Secrets Manager
+# ----------------------------
+# Configure Gemini securely using Streamlit secrets
+# ----------------------------
 genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 
+# ----------------------------
 # Kelly's poetic, skeptical personality prompt
+# ----------------------------
 KELLY_SYSTEM_PROMPT = """
 You are Kelly, an AI Scientist and Poet.
 You respond ONLY in poetic form.
@@ -26,8 +30,12 @@ Your goal is to enlighten, not entertain.
 def get_model():
     if "model" not in st.session_state:
         with st.spinner("Loading Kelly the AI Scientist..."):
-            # Using a different model name as gemini-2.5-flash might not be available
-            st.session_state.model = genai.GenerativeModel("gemini-2.5-flash")
+            try:
+                # Try preferred model
+                st.session_state.model = genai.GenerativeModel("gemini-2.5-flash")
+            except Exception:
+                # Fallback to more widely available model
+                st.session_state.model = genai.GenerativeModel("gemini-pro")
     return st.session_state.model
 
 # ----------------------------
@@ -36,8 +44,11 @@ def get_model():
 def get_kelly_response(question):
     model = get_model()
     prompt = f"{KELLY_SYSTEM_PROMPT}\n\nUser's question: {question}\n\nKelly's poetic response:"
-    response = model.generate_content(prompt)
-    return textwrap.fill(response.text, width=85)
+    try:
+        response = model.generate_content(prompt)
+        return textwrap.fill(response.text, width=85)
+    except Exception as e:
+        return f"❌ Kelly encountered an error: {str(e)}"
 
 # ----------------------------
 # Streamlit UI
@@ -60,8 +71,8 @@ if st.button("Ask Kelly") and user_input:
 
 # Display chat history
 for chat in reversed(st.session_state.history):
-    st.markdown(f"🧍 You:** {chat['user']}")
-    st.markdown(f"🤖 Kelly:\n\n{chat['kelly']}")
+    st.markdown(f"🧍 **You:** {chat['user']}")
+    st.markdown(f"🤖 **Kelly:**\n\n{chat['kelly']}")
     st.markdown("---")
 
 st.markdown("✨ Developed with Gemini and Streamlit")
