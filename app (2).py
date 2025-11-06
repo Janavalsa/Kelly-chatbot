@@ -27,7 +27,7 @@ def get_model():
     if "model" not in st.session_state:
         with st.spinner("Loading Kelly the AI Scientist..."):
             # Using a different model name as gemini-2.5-flash might not be available
-            st.session_state.model = genai.GenerativeModel("gemini-pro")
+            st.session_state.model = genai.GenerativeModel("gemini-2.5-flash")
     return st.session_state.model
 
 # ----------------------------
